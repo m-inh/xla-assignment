@@ -8,10 +8,11 @@ Description: Train gender classification model
 
 from keras.callbacks import CSVLogger, ModelCheckpoint, EarlyStopping
 from keras.callbacks import ReduceLROnPlateau
-from utils.datasets import DataManager
-from models.cnn import mini_XCEPTION
-from utils.data_augmentation import ImageGenerator
-from utils.datasets import split_imdb_data
+
+from src.utils.datasets import DataManager
+from src.models.cnn import mini_XCEPTION
+from src.utils.data_augmentation import ImageGenerator
+from src.utils.datasets import split_imdb_data
 
 # parameters
 batch_size = 32
