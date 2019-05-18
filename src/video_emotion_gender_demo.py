@@ -1,3 +1,4 @@
+import sys
 from statistics import mode
 
 import cv2
@@ -7,18 +8,22 @@ import imutils
 from imutils.video import FPS
 from imutils.video import WebcamVideoStream
 
-from utils.datasets import get_labels
-from utils.inference import detect_faces
-from utils.inference import draw_text
-from utils.inference import draw_bounding_box
-from utils.inference import apply_offsets
-from utils.inference import load_detection_model
-from utils.preprocessor import preprocess_input
+from src.utils.datasets import get_labels
+from src.utils.inference import detect_faces
+from src.utils.inference import draw_text
+from src.utils.inference import draw_bounding_box
+from src.utils.inference import apply_offsets
+from src.utils.inference import load_detection_model
+from src.utils.preprocessor import preprocess_input
 
 # parameters for loading data and images
-detection_model_path = '../trained_models/detection_models/haarcascade_frontalface_default.xml'
-emotion_model_path = '../trained_models/emotion_models/fer2013_mini_XCEPTION.102-0.66.hdf5'
-gender_model_path = '../trained_models/gender_models/simple_CNN.81-0.96.hdf5'
+dm = "haarcascade_frontalface_default.xml"
+em = "fer2013_mini_XCEPTION.102-0.66.hdf5"
+gm = "simple_CNN.81-0.96.hdf5"
+
+detection_model_path = '../trained_models/detection_models/' + dm
+emotion_model_path = '../trained_models/emotion_models/' + em
+gender_model_path = '../trained_models/gender_models/' + gm
 emotion_labels = get_labels('fer2013')
 gender_labels = get_labels('imdb')
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -69,8 +74,6 @@ while True:
     faces = detect_faces(face_detection, gray_image)
 
     for face_coordinates in faces:
-        print('face_coordinates', face_coordinates)
-
         x1, x2, y1, y2 = apply_offsets(face_coordinates, gender_offsets)
         rgb_face = rgb_image[y1:y2, x1:x2]
 
